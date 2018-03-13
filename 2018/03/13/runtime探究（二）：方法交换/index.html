@@ -7,17 +7,17 @@
   
   <title>fantasineer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewControl">
+  <meta name="description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：      写一个UIViewCo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fantasineer">
 <meta property="og:url" content="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/index.html">
 <meta property="og:site_name" content="fantasineer">
-<meta property="og:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewControl">
+<meta property="og:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：      写一个UIViewCo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-13T10:02:36.253Z">
+<meta property="og:updated_time" content="2018-03-13T10:13:28.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fantasineer">
-<meta name="twitter:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewControl">
+<meta name="twitter:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：      写一个UIViewCo">
   
     <link rel="alternate" href="/atom.xml" title="fantasineer" type="application/atom+xml">
   
@@ -83,12 +83,15 @@
         <hr>
 <p>title: runtime探究（二）：方法交换<br>date: 2017-04-25 12:10:20</p>
 <h2 id="tags-iOS"><a href="#tags-iOS" class="headerlink" title="tags: iOS"></a>tags: iOS</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>现在有这么一个情况：<br>一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。    </p>
-<h5 id="我们该如何填上这个坑呢？如果使用-常规手段，有这样2种大概可行的办法："><a href="#我们该如何填上这个坑呢？如果使用-常规手段，有这样2种大概可行的办法：" class="headerlink" title="我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法："></a>我们该如何填上这个坑呢？如果使用 <em>常规手段</em>，有这样2种大概可行的办法：</h5><ul>
+<p>我们该如何填上这个坑呢？如果使用 <em>常规手段</em>，有这样2种大概可行的办法：    </p>
+<ul>
 <li>写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以app中controller的基类。</li>
 <li>给UIViewController写一个 <em>category</em>，在category中重写ViewDidLoad，在pch文件中import进来  ；</li>
 </ul>
-<h5 id="首先我们来分析第一种："><a href="#首先我们来分析第一种：" class="headerlink" title="首先我们来分析第一种："></a>首先我们来分析第一种：</h5><p>如果本身 <em>app中存在这样的基类而且所有的controller都是其子类</em>，那这时候我们使用该方法是非常方便可行的，但是一旦没有这样的基类或者说这样的基类可能有多个，每个子类都继承子不同的基类，那我想这着实是一场编程灾难。</p>
-<h5 id="接下来看第二种："><a href="#接下来看第二种：" class="headerlink" title="接下来看第二种："></a>接下来看第二种：</h5><p>首先这个想法肯定是比上一个靠谱的，毕竟不管有没有上述那么一个基类，我们都能通过在pch中引入category使所有的 <em>__kindof UIViewController**的ViewDidLod方法实现变成我们在category中重写的实现，但是可行吗？category中实现方法与我们在类的.m文件中有一个非常大的区别： <strong>category中不能使用super方法</strong>，也就意味着我们在category中实现ViewDidLoad的重写时无法调用这句 </em>[super viewDidLoad]<em>，我想这个灾难应该比上一种还可怕。所以现在我们对category有多了一层认知： <strong>最好不要使用category来重写系统方法的实现。</strong>      
+<p>首先我们来分析第一种：   </p>
+<p>如果本身 <em>app中存在这样的基类而且所有的controller都是其子类</em>，那这时候我们使用该方法是非常方便可行的，但是一旦没有这样的基类或者说这样的基类可能有多个，每个子类都继承子不同的基类，那我想这着实是一场编程灾难。</p>
+<p>接下来看第二种：    </p>
+<p>首先这个想法肯定是比上一个靠谱的，毕竟不管有没有上述那么一个基类，我们都能通过在pch中引入category使所有的 <em>__kindof UIViewController**的ViewDidLod方法实现变成我们在category中重写的实现，但是可行吗？category中实现方法与我们在类的.m文件中有一个非常大的区别： <strong>category中不能使用super方法</strong>，也就意味着我们在category中实现ViewDidLoad的重写时无法调用这句 </em>[super viewDidLoad]<em>，我想这个灾难应该比上一种还可怕。所以现在我们对category有多了一层认知： <strong>最好不要使用category来重写系统方法的实现。</strong>      
 </em>其实也引出了方法交换的使用场景：*   <strong>全局低耦合性修改系统方法实现。</strong></p>
 <hr>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h5 id="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><a href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：" class="headerlink" title="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："></a>这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</h5><ul>
@@ -125,7 +128,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/" data-id="cjephnckj00049n4iesg7m0kg" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/" data-id="cjepi16xg0008b34ix1rl5njq" class="article-share-link">Share</a>
       
       
     </footer>
