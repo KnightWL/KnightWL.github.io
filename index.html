@@ -85,9 +85,9 @@
 <li>写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以app中controller的基类。</li>
 <li>给UIViewController写一个 <em>category</em>，在category中重写ViewDidLoad，在pch文件中import进来  ；</li>
 </ul>
-<h6 id="首先我们来分析第一种："><a href="#首先我们来分析第一种：" class="headerlink" title="首先我们来分析第一种："></a>首先我们来分析第一种：</h6><pre><code>如果本身 *app中存在这样的基类而且所有的controller都是其子类*，那这时候我们使用该方法是非常方便可行的，但是一旦没有这样的基类或者说这样的基类可能有多个，每个子类都继承子不同的基类，那我想这着实是一场编程灾难。  
-</code></pre><h6 id="接下来看第二种："><a href="#接下来看第二种：" class="headerlink" title="接下来看第二种："></a>接下来看第二种：</h6><pre><code>首先这个想法肯定是比上一个靠谱的，毕竟不管有没有上述那么一个基类，我们都能通过在pch中引入category使所有的 *__kindof UIViewController\**的ViewDidLod方法实现变成我们在category中重写的实现，但是可行吗？category中实现方法与我们在类的.m文件中有一个非常大的区别： __category中不能使用super方法__，也就意味着我们在category中实现ViewDidLoad的重写时无法调用这句 *[super viewDidLoad]*，我想这个灾难应该比上一种还可怕。所以现在我们对category有多了一层认知： __最好不要使用category来重写系统方法的实现。__      
-</code></pre><p><em>其实也引出了方法交换的使用场景：</em> <strong>全局低耦合性修改系统方法实现。</strong></p>
+<h6 id="首先我们来分析第一种："><a href="#首先我们来分析第一种：" class="headerlink" title="首先我们来分析第一种："></a>首先我们来分析第一种：</h6><p>如果本身 <em>app中存在这样的基类而且所有的controller都是其子类</em>，那这时候我们使用该方法是非常方便可行的，但是一旦没有这样的基类或者说这样的基类可能有多个，每个子类都继承子不同的基类，那我想这着实是一场编程灾难。  </p>
+<h6 id="接下来看第二种："><a href="#接下来看第二种：" class="headerlink" title="接下来看第二种："></a>接下来看第二种：</h6><p>首先这个想法肯定是比上一个靠谱的，毕竟不管有没有上述那么一个基类，我们都能通过在pch中引入category使所有的 <em><strong>kindof UIViewController**的ViewDidLod方法实现变成我们在category中重写的实现，但是可行吗？category中实现方法与我们在类的.m文件中有一个非常大的区别： </strong>category中不能使用super方法__，也就意味着我们在category中实现ViewDidLoad的重写时无法调用这句 </em>[super viewDidLoad]<em>，我想这个灾难应该比上一种还可怕。所以现在我们对category有多了一层认知： <strong>最好不要使用category来重写系统方法的实现。</strong>      
+</em>其实也引出了方法交换的使用场景：* <strong>全局低耦合性修改系统方法实现。</strong></p>
 <hr>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h5 id="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><a href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：" class="headerlink" title="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："></a>这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</h5><ul>
 <li>创建一对category文件</li>
@@ -123,7 +123,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/" data-id="cjepfptfb0005vk4ibnwj4wn6" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/" data-id="cjepfsbec000aw74ifjw0da7s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -200,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/08/14/JS中的继承/" data-id="cjepfptf30003vk4i9m2lpekd" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2017/08/14/JS中的继承/" data-id="cjepfsbds0001w74icp7bkcy0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -241,7 +241,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/24/runtime探究/" data-id="cjepfptfh0009vk4iwfbx1xcn" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2017/04/24/runtime探究/" data-id="cjepfsbea0008w74ieabd7kzl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
@@ -286,7 +286,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/20/NSTimer倒计时那些事/" data-id="cjepfpten0000vk4i9l8ohi0x" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2017/04/20/NSTimer倒计时那些事/" data-id="cjepfsbdk0000w74i2pd5hip5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
@@ -340,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/17/alert、action的一些扩展/" data-id="cjepfptf60004vk4ibbmo7873" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2017/04/17/alert、action的一些扩展/" data-id="cjepfsbe20004w74icj2d4j9z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -389,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/16/iOS可变参数/" data-id="cjepfptff0008vk4il6owam4j" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2017/04/16/iOS可变参数/" data-id="cjepfsbe70005w74ij5005bv0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
@@ -440,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/15/AFNetworking内存泄漏/" data-id="cjepfpteu0001vk4iseao396y" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2017/04/15/AFNetworking内存泄漏/" data-id="cjepfsbdy0003w74iw9v3wdrp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
