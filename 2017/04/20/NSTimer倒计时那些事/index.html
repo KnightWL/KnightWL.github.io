@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<title>
+  
+    NSTimer倒计时那些事
+  
+</title>
+
+<meta name="description" content="以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。在我过去的项目中发现，凡是持有timer的页面（例如许许多多接收验证码的页面），在该dealloc的时候都没有正常执行的dealloc，导致了不少内存泄漏。以前总是习惯在viewController的dealloc方法中来执行1234- (void)deallo">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSTimer倒计时那些事">
+<meta property="og:url" content="http://fantasineer.com/2017/04/20/NSTimer倒计时那些事/index.html">
+<meta property="og:site_name" content="fantasineer">
+<meta property="og:description" content="以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。在我过去的项目中发现，凡是持有timer的页面（例如许许多多接收验证码的页面），在该dealloc的时候都没有正常执行的dealloc，导致了不少内存泄漏。以前总是习惯在viewController的dealloc方法中来执行1234- (void)deallo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-04-20T10:41:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NSTimer倒计时那些事">
+<meta name="twitter:description" content="以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。在我过去的项目中发现，凡是持有timer的页面（例如许许多多接收验证码的页面），在该dealloc的时候都没有正常执行的dealloc，导致了不少内存泄漏。以前总是习惯在viewController的dealloc方法中来执行1234- (void)deallo">
+
+
+  <link rel="alternative" href="/atom.xml" title="fantasineer" type="application/atom+xml">
+
+
+
+  <link rel="icon" href="/favicon.png">
+
+
+<link rel="stylesheet" href="/perfect-scrollbar/css/perfect-scrollbar.min.css">
+<link rel="stylesheet" href="/styles/main.css">
+
+
+
+
+
+
+</head>
+<body
+  
+    class="monochrome"
+  
+  >
+  <div class="mobile-header">
+  <button class="sidebar-toggle" type="button">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a class="title" href="/">fantasineer</a>
+</div>
+
+  <div class="main-container">
+    <div class="sidebar">
+  <div class="header">
+    <h1 class="title"><a href="/">fantasineer</a></h1>
+    
+      <p class="subtitle">
+        blog by WL
+      </p>
+    
+    <div class="info">
+      <div class="content">
+        
+        
+          <div class="author">Lei Wang</div>
+        
+      </div>
+      
+        <div class="avatar">
+          
+            <a href="/about"><img src="https://cn.gravatar.com/avatar/35fef74d731255cd569c2c2b0b9e87e4?s=200"></a>
+          
+        </div>
+      
+    </div>
+  </div>
+  <div class="body">
+    
+      
+        <ul class="nav">
+          
+            
+              <li class="category-list-container">
+                <a href="javascript:;">分类</a>
+                
+              </li>
+            
+          
+            
+              <li class="tag-list-container">
+                <a href="javascript:;">标签</a>
+                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">4</span></li></ul>
+              </li>
+            
+          
+            
+              <li class="archive-list-container">
+                <a href="javascript:;">归档</a>
+                <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">6</span></li></ul>
+              </li>
+            
+          
+        </ul>
+      
+        <ul class="nav">
+          
+            
+              <li>
+                <a href="/" title="Homepage">Homepage</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/archives" title="By Year">By Year</a>
+              </li>
+            
+          
+        </ul>
+      
+        <ul class="nav">
+          
+            
+              <li>
+                <a href="https://github.com/denjones/hexo-theme-chan" title="Chan" target="_blank" rel="noopener">Chan</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="https://github.com/denjones" title="Github" target="_blank" rel="noopener">Github</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/atom.xml" title="RSS">RSS</a>
+              </li>
+            
+          
+        </ul>
+      
+    
+  </div>
+</div>
+
+    <div class="main-content">
+      
+        <div style="max-width: 1000px">
+      
+          <article id="post-NSTimer倒计时那些事" class="article article-type-post">
+  
+    <h1 class="article-header">
+      NSTimer倒计时那些事
+    </h1>
+  
+  
+
+  <div class="article-info">
+    <span class="article-date">
+  2017-04-20
+</span>
+
+    
+
+    
+	<span class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</span>
+
+
+  </div>
+  <div class="article-entry">
+    <h5 id="以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。"><a href="#以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。" class="headerlink" title="以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。"></a>以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。</h5><p>在我过去的项目中发现，凡是持有timer的页面（例如许许多多接收验证码的页面），在该dealloc的时候都没有正常执行的dealloc，导致了不少内存泄漏。<br>以前总是习惯在viewController的dealloc方法中来执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)dealloc&#123;</span><br><span class="line">    [_timer invalidate];</span><br><span class="line">    self.timer = nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上文已经说了，dealloc是不会执行的，那么这是为什么呢？</p>
+<h5 id="原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。"><a href="#原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。" class="headerlink" title="原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。"></a>原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。</h5><p>那么许多胖友可能会想了，那我干脆controller弱引用timer，或者不持有timer这个属性不就行了，这个想法啊，too young， sometimes naive🤓你会发现controller还是不会dealloc，why？</p>
+<blockquote>
+<p>timer如果不invalidate掉的话会一直保存在内存中，那么对应的controller也一直在了。</p>
+</blockquote>
+<h5 id="那怎么办呢？难道就不能用timer做倒计时了？"><a href="#那怎么办呢？难道就不能用timer做倒计时了？" class="headerlink" title="那怎么办呢？难道就不能用timer做倒计时了？"></a>那怎么办呢？难道就不能用timer做倒计时了？</h5><p>非也，也不是不可以的。一个比较折中的方法，在timer自己的selector中一旦倒计时到0就invalidate然后置空，下次再开启倒计时就重新创建一个新的timer。<br>不过这样会出现一个非常有意思的情况，你会发现pop或者dismiss掉controller之前，如果timer的倒计时没有结束，那么controller不会第一时间dealloc，而是会在timer倒计时结束后再dealloc。<br>最后附上一点代码片段，困得眼皮打架了，有机会再研究研究有没有更好的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (void)timerAction&#123;</span><br><span class="line">    if (_countDown &gt; 0) &#123;</span><br><span class="line">        _verifyBtn.enabled = NO;</span><br><span class="line">        _countDown --;</span><br><span class="line">        [_verifyBtn setAttributedTitle:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@&quot;%lds&quot;, _countDown] attributes:@&#123;NSForegroundColorAttributeName : hexColor(0x999999), NSFontAttributeName : [UIFont systemFontOfSize:16]&#125;] forState:(UIControlStateNormal)];</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        _countDown = countDownTime;</span><br><span class="line">        _verifyBtn.enabled = YES;</span><br><span class="line">        [_timer invalidate];</span><br><span class="line">        _timer = nil;</span><br><span class="line">        [_verifyBtn setAttributedTitle:[[NSAttributedString alloc] initWithString:@&quot;获取验证码&quot; attributes:@&#123;NSForegroundColorAttributeName :   hexColor(0x137bd7), NSFontAttributeName : [UIFont systemFontOfSize:16.0f]&#125;] forState:(UIControlStateNormal)];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+  </div>
+  <footer class="article-footer">
+    
+  <div class="cc">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.z" target="_blank" title="署名-相同方式共享">
+      <img src="/images/cc/cc.png">
+      
+          <img src="/images/cc/by.png">
+        
+          <img src="/images/cc/sa.png">
+      
+      <span>
+        本作品采用知识共享 署名-相同方式共享 4.0 国际许可协议进行许可。
+      </span>
+    </a>
+  </div>
+
+
+    
+
+  </footer>
+</article>
+
+
+
+
+
+
+
+          <div class="main-footer">
+  
+    © 2018 fantasineer - Powered by <a href="http://hexo.io" target="_blank">Hexo</a> - Theme <a href="https://github.com/denjones/hexo-theme-chan" target="_blank">Chan</a>
+  
+</div>
+
+      
+        </div>
+      
+    </div>
+  </div>
+  <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="/PhotoSwipe/photoswipe.css">
+  <link rel="stylesheet" href="/PhotoSwipe/default-skin/default-skin.css">
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+             It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+      <!-- Container that holds slides.
+                PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                Don't modify these 3 pswp__item elements, data is added later on. -->
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+
+      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+      <div class="pswp__ui pswp__ui--hidden">
+
+        <div class="pswp__top-bar">
+
+          <!--  Controls are self-explanatory. Order can be changed. -->
+
+          <div class="pswp__counter"></div>
+
+          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+          <button class="pswp__button pswp__button--share" title="Share"></button>
+
+          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+          <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+          <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+          <!-- element will get class pswp__preloader--active when preloader is running -->
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div>
+        </div>
+
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/PhotoSwipe/photoswipe.js"></script>
+  <script src="/PhotoSwipe/photoswipe-ui-default.js"></script>
+
+
+<script src="/perfect-scrollbar/js/min/perfect-scrollbar.min.js"></script>
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>
