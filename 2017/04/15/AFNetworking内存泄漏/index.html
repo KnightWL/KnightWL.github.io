@@ -1,100 +1,122 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>AFNetworking 内存泄漏问题 | fantasineer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图： 那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLMa">
-<meta name="keywords" content="iOS">
-<meta property="og:type" content="article">
-<meta property="og:title" content="AFNetworking 内存泄漏问题">
-<meta property="og:url" content="http://fantasineer.com/2017/04/15/AFNetworking内存泄漏/index.html">
-<meta property="og:site_name" content="fantasineer">
-<meta property="og:description" content="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图： 那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLMa">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://i2.muimg.com/567571/39e96918332ed6ae.png">
-<meta property="og:image" content="http://i2.muimg.com/567571/118de333896860cf.png">
-<meta property="og:updated_time" content="2017-04-17T09:05:51.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AFNetworking 内存泄漏问题">
-<meta name="twitter:description" content="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图： 那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLMa">
-<meta name="twitter:image" content="http://i2.muimg.com/567571/39e96918332ed6ae.png">
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Lei Wang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="AFNetworking 内存泄漏问题"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="fantasineer"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://fantasineer.com"/>
   
     <link rel="alternate" href="/atom.xml" title="fantasineer" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
+
+  <!-- Site Title -->
+  <title>fantasineer</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
   
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
   
-  <link rel="stylesheet" href="/css/style.css">
+
 </head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">fantasineer</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">blog by WL</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://fantasineer.com"></form>
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">AFNetworking 内存泄漏问题</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/<your-github-username>">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:<your-email-address>">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-AFNetworking内存泄漏" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/15/AFNetworking内存泄漏/" class="article-date">
-  <time datetime="2017-04-15T01:37:23.000Z" itemprop="datePublished">2017-04-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      AFNetworking 内存泄漏问题
-    </h1>
-  
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。"><a href="#前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。" class="headerlink" title="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。"></a>前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。</h4><h5 id="每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call-tree和retain-circle都是一样的如下2图："><a href="#每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call-tree和retain-circle都是一样的如下2图：" class="headerlink" title="每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图："></a>每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图：</h5><p><img src="http://i2.muimg.com/567571/39e96918332ed6ae.png" alt=""><br><img src="http://i2.muimg.com/567571/118de333896860cf.png" alt=""></p>
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Lei Wang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-04-15</span>
+            <span class="time">17:20:27</span>
+          </span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/iOS/">#iOS</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h4 id="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。"><a href="#前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。" class="headerlink" title="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。"></a>前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。</h4><h5 id="每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call-tree和retain-circle都是一样的如下2图："><a href="#每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call-tree和retain-circle都是一样的如下2图：" class="headerlink" title="每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图："></a>每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图：</h5><p><img src="http://i2.muimg.com/567571/39e96918332ed6ae.png" alt=""><br><img src="http://i2.muimg.com/567571/118de333896860cf.png" alt=""></p>
 <h5 id="那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。"><a href="#那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。" class="headerlink" title="那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。"></a>那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。</h5><h5 id="特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？"><a href="#特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？" class="headerlink" title="特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？"></a>特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？</h5><h5 id="两种方法："><a href="#两种方法：" class="headerlink" title="两种方法："></a>两种方法：</h5><ul>
 <li>将session写成单例，将AFURLManager对session的引用改成weak</li>
 <li>将manager写成单例<blockquote>
@@ -108,135 +130,42 @@
 <li>我个人更推荐第二种算法，因为它看似舍近求远，但是其实是从最根源解决了AFN的内存泄漏问题， 并且manager的创建一般都是在我们对AFN的二次封装或者直接使用时进行的，所以不需要修改AFN内部代码，工作量也小于第一种。</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/15/AFNetworking内存泄漏/" data-id="cjepfsbdy0003w74iw9v3wdrp" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/04/16/iOS可变参数/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          iOS可变参数问题
-        
+        </div>
       </div>
-    </a>
-  
-  
-</nav>
-
-  
+    </div>
+  </div>
 </article>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/iOS/" style="font-size: 10px;">iOS</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/03/13/runtime探究（二）：方法交换/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/14/JS中的继承/">JS中的继承</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/24/runtime探究/">runtime探究（一）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/20/NSTimer倒计时那些事/">NSTimer倒计时那些事</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/17/alert、action的一些扩展/">alert、action的一些扩展</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Lei Wang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
 
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
+  </body>
 </html>
+

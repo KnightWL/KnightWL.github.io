@@ -1,559 +1,342 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>fantasineer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="fantasineer">
-<meta property="og:url" content="http://fantasineer.com/index.html">
-<meta property="og:site_name" content="fantasineer">
-<meta property="og:locale" content="zh-CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fantasineer">
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Lei Wang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="fantasineer"/>
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="fantasineer"/>
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://fantasineer.com"/>
   
     <link rel="alternate" href="/atom.xml" title="fantasineer" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
+
+  <!-- Site Title -->
+  <title>fantasineer</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
   
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
   
-  <link rel="stylesheet" href="/css/style.css">
+
 </head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">fantasineer</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">blog by WL</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://fantasineer.com"></form>
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">fantasineer</p>
+          <p class="subtitle">blog by WL</p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/<your-github-username>">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:<your-email-address>">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-runtime探究（二）：方法交换" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/03/13/runtime探究（二）：方法交换/" class="article-date">
-  <time datetime="2018-03-13T06:46:19.535Z" itemprop="datePublished">2018-03-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>title: runtime探究（二）：方法交换<br>date: 2017-04-25 12:10:20</p>
-<h2 id="tags-iOS"><a href="#tags-iOS" class="headerlink" title="tags: iOS"></a>tags: iOS</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>现在有这么一个情况：<br>一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。    </p>
-<h5 id="我们该如何填上这个坑呢？如果使用-常规手段，有这样2种大概可行的办法："><a href="#我们该如何填上这个坑呢？如果使用-常规手段，有这样2种大概可行的办法：" class="headerlink" title="我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法："></a>我们该如何填上这个坑呢？如果使用 <em>常规手段</em>，有这样2种大概可行的办法：</h5><ul>
-<li>写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以app中controller的基类。</li>
-<li>给UIViewController写一个 <em>category</em>，在category中重写ViewDidLoad，在pch文件中import进来  ；</li>
-</ul>
-<h6 id="首先我们来分析第一种："><a href="#首先我们来分析第一种：" class="headerlink" title="首先我们来分析第一种："></a>首先我们来分析第一种：</h6><p>如果本身 <em>app中存在这样的基类而且所有的controller都是其子类</em>，那这时候我们使用该方法是非常方便可行的，但是一旦没有这样的基类或者说这样的基类可能有多个，每个子类都继承子不同的基类，那我想这着实是一场编程灾难。  </p>
-<h6 id="接下来看第二种："><a href="#接下来看第二种：" class="headerlink" title="接下来看第二种："></a>接下来看第二种：</h6><p>首先这个想法肯定是比上一个靠谱的，毕竟不管有没有上述那么一个基类，我们都能通过在pch中引入category使所有的 <em><strong>kindof UIViewController**的ViewDidLod方法实现变成我们在category中重写的实现，但是可行吗？category中实现方法与我们在类的.m文件中有一个非常大的区别： </strong>category中不能使用super方法__，也就意味着我们在category中实现ViewDidLoad的重写时无法调用这句 </em>[super viewDidLoad]<em>，我想这个灾难应该比上一种还可怕。所以现在我们对category有多了一层认知： <strong>最好不要使用category来重写系统方法的实现。</strong>      
-</em>其实也引出了方法交换的使用场景：* <strong>全局低耦合性修改系统方法实现。</strong></p>
-<hr>
-<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h5 id="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><a href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：" class="headerlink" title="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："></a>这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</h5><ul>
-<li>创建一对category文件</li>
-<li>在category的.m中引入 <em>\&lt;objc/message.h&gt;</em></li>
-<li>在.m中实现一个自定义的方法 <em>DIY_viewDidLod</em>，在其实加入自己要添加的方法实现然后在该方法内调用 <em>[self DIY_viewDidLoad]</em></li>
-<li>在 <em>load</em>方法中使用 <em>runtime</em>将 <em>viewDidLoad</em>与 <em>DIY_viewDidLoad</em>的方法实现互换。（ <strong>最好在互换时将互换过程写在dispatch_once的block中，虽然我们都知道load方法只在本文件加载进ram时调用一次，但是我还真的碰到过一个bug对一个文件的load方法执行过多次的情况</strong>）     </li>
-</ul>
-<h5 id="这里边其实存在一些需要讨论的东西："><a href="#这里边其实存在一些需要讨论的东西：" class="headerlink" title="这里边其实存在一些需要讨论的东西："></a>这里边其实存在一些需要讨论的东西：</h5><ul>
-<li><p>为什么使用 <em>load</em>方法？有没有可以代替的方法？<br>_因为load方法是在文件被加载进内存时就调用的方法，能最大限度保证全局的viewDidLoad方法都被我们所自定义的方法实现替换； <em>initialize</em>方法其实也可以实现我们的需求，但是该方法不止会在加载进内存时调用，而是在整个运行过程中会存在多次调用，不过仍然可以通过dispatch_once来实现我们的需求，其实在swift中因为没有load方法，也确实是通过initialize+dispatch_once实现的。_</p>
-</li>
-<li><p>为什么在DIY_viewDidLoad中又调用了DIY_viewDidLoad，难道不会变成死循环吗？<br><strong>因为我们已经在load中将DIY_viewDidLoad和原生的viewDidLoad的方法实现做了交换，所以此时在DIY_viewDidLoad的实现中调用的 [self DIY_viewDidLoad]其实调用的是[self viewDidLoad]的实现，所以不存在死循环，反而如果在DIY_viewDidLoad中调用viewDidLoad会产生死循环。</strong>  </p>
-</li>
-</ul>
-<hr>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code>#import &quot;UIViewController+ExchangeViewDidLoad.h&quot;
-#import &lt;objc/message.h&gt;
-@implementation UIViewController (ExchangeViewDidLoad)
-+ (void)load{
-     static dispatch_once_t onceToken;
-    dispatch_once(&amp;onceToken, ^{
-        Method met1 = class_getInstanceMethod(self, @selector(viewDidLoad));
-        Method met2 = class_getInstanceMethod(self, @selector(wl_viewDidLoad));
-        method_exchangeImplementations(met1, met2);
-    });
-}
 
-- (void)wl_viewDidLoad{
-    NSLog(@&quot;交换成功&quot;);
-    [self wl_viewDidLoad];
-}
-@end
-</code></pre>
+<!-- Home Page Post List -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-md-offset-1">
+      
+        <div class="post-item-wrapper">
+  <a href="/2018/03/13/runtime探究（二）：方法交换/" class="post-title">
+      无标题文章
+  </a>
+  <div class="post-excerpt">
+    <!-- Post Date and Categories -->
+    <div class="date-and-category">
+      <div class="date">2018-03-13</div>
+      <div class="categories">
+        
+          Uncategorized
+        
+      </div>
+    </div>
+    <!-- Post Excerpt -->
+    <div class="excerpt typo">暂无文章摘要</div>
+    <!-- Post Tags -->
+    <div class="tags">
+      
+        <div class="untagged">Untagged</div>
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/" data-id="cjepfsbec000aw74ifjw0da7s" class="article-share-link">Share</a>
-      
-      
-    </footer>
   </div>
-  
-</article>
+</div>
 
-
-  
-    <article id="post-JS中的继承" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/14/JS中的继承/" class="article-date">
-  <time datetime="2017-08-14T08:22:42.000Z" itemprop="datePublished">2017-08-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+      
+        <div class="post-item-wrapper">
+  <a href="/2017/08/14/JS中的继承/" class="post-title">
+      JS中的继承
+  </a>
+  <div class="post-excerpt">
+    <!-- Post Date and Categories -->
+    <div class="date-and-category">
+      <div class="date">2017-08-14</div>
+      <div class="categories">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/14/JS中的继承/">JS中的继承</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
+          Uncategorized
+        
+      </div>
+    </div>
+    <!-- Post Excerpt -->
+    <div class="excerpt typo">暂无文章摘要</div>
+    <!-- Post Tags -->
+    <div class="tags">
       
-        <h3 id="JS中的对象类型"><a href="#JS中的对象类型" class="headerlink" title="JS中的对象类型"></a>JS中的对象类型</h3><h4 id="JS中的对象一共有两个大类型"><a href="#JS中的对象一共有两个大类型" class="headerlink" title="JS中的对象一共有两个大类型:"></a>JS中的对象一共有两个大类型:</h4><ul>
-<li>Object对象,即普通对象</li>
-<li>Function对象,即函数对象</li>
-</ul>
-<blockquote>
-<p> 二者的相同点  </p>
-</blockquote>
-<ul>
-<li>每个函数都有__proto__属性</li>
-</ul>
-<blockquote>
-<p>二者的区别</p>
-</blockquote>
-<ul>
-<li>与普通对象不同,函数对象的创建是通过<strong><em>new</em> Function()</strong> 的方式创建的</li>
-<li>函数对象有一个专属的属性<strong><em>prototype</em></strong>指向该函数对象的原型对象,是所有普通对象不具有的.</li>
-<li>所有通过某构造函数A所创建的对象都具有一个<strong><em>constructor</em></strong>属性,该属性的指针指向构造函数对象A</li>
-</ul>
-<hr>
-<blockquote>
-<p>原型对象</p>
-</blockquote>
-<ul>
-<li><p>原型对象（Person.prototype）是 构造函数（Person）的一个实例;  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">如:</span><br><span class="line">var a = new Person();</span><br><span class="line">var b = new Person();</span><br><span class="line"></span><br><span class="line">此处的a和b都等于Person.prototype</span><br><span class="line"></span><br><span class="line">a.constructor = Person;</span><br><span class="line">Person.prototype.constructor = Person;</span><br><span class="line">Person.prototype = a;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>原型对象其实就是普通对象（但 Function.prototype 除外，它是函数对象，但它很特殊，他没有prototype属性（前面说道函数对象都有prototype属性））。  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">之所以说Function.prototype除外,是因为:</span><br><span class="line"></span><br><span class="line">var Person = new Function(&apos;name&apos;);</span><br><span class="line">Person.constructor = Function;</span><br><span class="line">Function.prototype = Person;</span><br><span class="line"></span><br><span class="line">而此时Person对象是一个函数对象</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>远行对象的主要作用是用于继承</p>
-</li>
-</ul>
-<hr>
-<h4 id="proto-属性"><a href="#proto-属性" class="headerlink" title="__proto__属性"></a>__proto__属性</h4><p>所有对象在创建的时候都会有一个__proto__属性,该属性指向 <strong><em>对象的构造函数的prototype</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var wl = new Person();</span><br><span class="line">wl.__proto__ = wl.constructor.prototype;</span><br><span class="line">wl.__proto__ = Person.prototype;</span><br></pre></td></tr></table></figure></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://oojlifbig.bkt.clouddn.com/17-8-14/19790542.jpg" alt=""></h2><h4 id="模式一-原型继承"><a href="#模式一-原型继承" class="headerlink" title="模式一:原型继承"></a>模式一:原型继承</h4><p><code>原型继承是让父类对象作为子类对象的原型,从而达到继承的目的,分为两种情况</code></p>
-<ul>
-<li>将一个父类对象作为子类对象的原型</li>
-<li><p>直接将父类对象的原型作为子类对象的原型<br><code>`</code> function object(parent){<br>  function sub(){</p>
-<p>  }<br>  sub.prototype = parent;<br>  return new sub();<br>}</p>
-</li>
-</ul>
+        <div class="untagged">Untagged</div>
+      
+    </div>
+  </div>
+</div>
+
+      
+        <div class="post-item-wrapper">
+  <a href="/2017/04/24/runtime探究/" class="post-title">
+      runtime探究（一）
+  </a>
+  <div class="post-excerpt">
+    <!-- Post Date and Categories -->
+    <div class="date-and-category">
+      <div class="date">2017-04-24</div>
+      <div class="categories">
+        
+          Uncategorized
+        
+      </div>
+    </div>
+    <!-- Post Excerpt -->
+    <div class="excerpt typo">暂无文章摘要</div>
+    <!-- Post Tags -->
+    <div class="tags">
+      
+        
+
+<a class="tag" href="/tags/iOS/">iOS</a>
+
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/08/14/JS中的继承/" data-id="cjepfsbds0001w74icp7bkcy0" class="article-share-link">Share</a>
-      
-      
-    </footer>
   </div>
-  
-</article>
+</div>
 
-
-  
-    <article id="post-runtime探究" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/24/runtime探究/" class="article-date">
-  <time datetime="2017-04-24T12:48:57.000Z" itemprop="datePublished">2017-04-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+      
+        <div class="post-item-wrapper">
+  <a href="/2017/04/20/NSTimer倒计时那些事/" class="post-title">
+      NSTimer倒计时那些事
+  </a>
+  <div class="post-excerpt">
+    <!-- Post Date and Categories -->
+    <div class="date-and-category">
+      <div class="date">2017-04-20</div>
+      <div class="categories">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/24/runtime探究/">runtime探究（一）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
+          Uncategorized
+        
+      </div>
+    </div>
+    <!-- Post Excerpt -->
+    <div class="excerpt typo">暂无文章摘要</div>
+    <!-- Post Tags -->
+    <div class="tags">
       
-        <h5 id="自从知道了runtime这个东西后，就一直爱不释手，一是用起来比较炫酷，非常适合装逼；第二是因为runtime作为OC的底层实现，多了解、使用能让我们更清楚知道OC的运作原理，并且runtime还这么强大，不用那岂不是暴殄天物。"><a href="#自从知道了runtime这个东西后，就一直爱不释手，一是用起来比较炫酷，非常适合装逼；第二是因为runtime作为OC的底层实现，多了解、使用能让我们更清楚知道OC的运作原理，并且runtime还这么强大，不用那岂不是暴殄天物。" class="headerlink" title="自从知道了runtime这个东西后，就一直爱不释手，一是用起来比较炫酷，非常适合装逼；第二是因为runtime作为OC的底层实现，多了解、使用能让我们更清楚知道OC的运作原理，并且runtime还这么强大，不用那岂不是暴殄天物。"></a>自从知道了runtime这个东西后，就一直爱不释手，一是用起来比较炫酷，非常适合装逼；第二是因为runtime作为OC的底层实现，多了解、使用能让我们更清楚知道OC的运作原理，并且runtime还这么强大，不用那岂不是暴殄天物。</h5><p>本着复习runtime的精神，打算将整个探究过程分为三个篇章：第一篇，先不讲原理，先说runtime的一些低级用法诸如关联属性、获取属性列表、方法列表、变量列表、协议列表等；第二篇，扯一扯一些原理性的东西诸如isa、class、方法传递；第三篇再讲一些AOP方向的高级应用。<br>为啥不先说原理呢？常言道：授人以鱼不如授人以渔，但是我要是想先让大家吃条鱼再给你们鱼竿肯定效果更好啊，直接给鱼竿万一鱼没上钩先饿死了呢？</p>
-<h5 id="当然，想在我们的代码中使用runtime是有前提的，前提就是-import-lt-Objc-runtime-h-gt"><a href="#当然，想在我们的代码中使用runtime是有前提的，前提就是-import-lt-Objc-runtime-h-gt" class="headerlink" title="当然，想在我们的代码中使用runtime是有前提的，前提就是:#import &lt;Objc/runtime.h&gt;"></a>当然，想在我们的代码中使用runtime是有前提的，前提就是:#import &lt;Objc/runtime.h&gt;</h5><h4 id="一、关联属性"><a href="#一、关联属性" class="headerlink" title="一、关联属性"></a>一、关联属性</h4><p>听起来有点吓人，看着就像很专业的东西。其实简单的很，就是在程序运行期间为某类对象、实例对象动态添加一个属性。<br>用法：<br>associate setter方法： <code>void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)</code><br>参数：object 要绑定属性的对象<br>     key    要绑定的属性的key<br>     id     要绑定的属性<br>     policy 绑定属性时使用的内存管理方式<br>    （<br>        OBJC_ASSOCIATION_ASSIGN = 0,           ==asign<br>        OBJC_ASSOCIATION_RETAIN_NONATOMIC = 1, ==nonatomic,strong<br>        OBJC_ASSOCIATION_COPY_NONATOMIC = 3,   ==nonatomic,copy<br>        OBJC_ASSOCIATION_RETAIN = 01401,       ==strong<br>        OBJC_ASSOCIATION_COPY = 01403          ==copy<br>      ）</p>
-<p>associate getter方法： <code>id objc_getAssociatedObject(id object, const void *key)</code><br>参数：object 已经绑定属性的对象<br>     key    绑定的key<br>很明显，两个C语言的API，用起来也是相当简单。</p>
-<h5 id="使用了setter方法，就等于给该对象动态添加了一个值为value，键为key的属性，常常用在用字符串给UIView做标识来区分（类似于tag），或者给alert、action、-button等绑定一个处理事件的block（我在我之前的文章alert、action的一些拓展中提到过）。"><a href="#使用了setter方法，就等于给该对象动态添加了一个值为value，键为key的属性，常常用在用字符串给UIView做标识来区分（类似于tag），或者给alert、action、-button等绑定一个处理事件的block（我在我之前的文章alert、action的一些拓展中提到过）。" class="headerlink" title="使用了setter方法，就等于给该对象动态添加了一个值为value，键为key的属性，常常用在用字符串给UIView做标识来区分（类似于tag），或者给alert、action、 button等绑定一个处理事件的block（我在我之前的文章alert、action的一些拓展中提到过）。"></a>使用了setter方法，就等于给该对象动态添加了一个值为value，键为key的属性，常常用在用字符串给UIView做标识来区分（类似于tag），或者给alert、action、 button等绑定一个处理事件的block（我在我之前的文章<a href="http://fantasineer.com/2017/04/17/alert%E3%80%81action%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/">alert、action的一些拓展</a>中提到过）。</h5><p><em>需要注意的一点是设置了关联属性并不会像我们正常添加的属性一样自动生成setter方法和getter方法，只能使用associate setter/getter方法来对值进行设置和获取。而且也不会被添加到类的属性列表和变量列表。</em></p>
-<h4 id="遍历类的各种列表"><a href="#遍历类的各种列表" class="headerlink" title="遍历类的各种列表"></a>遍历类的各种列表</h4><p>runtime作为OC的底层，广义上说其实可以算作元编程，顺便普及一下，有时候总能看到什么元类、元编程之类的词汇，觉得好高深，其实所谓元xx，可以认为是关于xx的xx，元编程就是关于编程的编程。既然是关于编程的编程，那么在我们无法<em>用代码</em>通过常规手段知道一个类的属性、变量、方法、遵守的协议都有些什么的时候，runtime就又要立功了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)testRuntime&#123;</span><br><span class="line">    //创建一个WLBaseViewController对象</span><br><span class="line">    WLBaseViewController *controller = [[WLBaseViewController alloc] init];</span><br><span class="line">    //获取对象的类</span><br><span class="line">    Class cla  = [WLBaseViewController class];</span><br><span class="line">    //关联属性</span><br><span class="line">    NSString *const key = @&quot;associate&quot;;</span><br><span class="line">    objc_setAssociatedObject(cla, &amp;key, @&quot;hhh&quot;, OBJC_ASSOCIATION_COPY);</span><br><span class="line">    NSLog(@&quot;%@ associate:**** %@ **** &quot;, testIdentifier,    objc_getAssociatedObject(cla, &amp;key));</span><br><span class="line">    </span><br><span class="line">    //下文多次出现的testIdentifier只是我在console过滤log的一个标识 请忽略</span><br><span class="line">    //遍历属性列表</span><br><span class="line">    unsigned int count;</span><br><span class="line">    objc_property_t *properties = class_copyPropertyList(cla, &amp;count);</span><br><span class="line">    for (int i = 0; i &lt; count; i ++) &#123;</span><br><span class="line">        objc_property_t property = properties[i];</span><br><span class="line">        const char *nameinutf8 = property_getName(property);</span><br><span class="line">        NSString *name   = [NSString stringWithUTF8String:nameinutf8];</span><br><span class="line">        NSLog(@&quot;%@ property: **** %@ **** &quot;, testIdentifier, name);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //遍历变量列表</span><br><span class="line">    Ivar *ivars = class_copyIvarList(cla, &amp;count);</span><br><span class="line">    for (int i = 0; i &lt; count; i ++) &#123;</span><br><span class="line">        Ivar ivar = ivars[i];</span><br><span class="line">        const char *nameinutf8 = ivar_getName(ivar);</span><br><span class="line">        NSString *name   = [NSString stringWithUTF8String:nameinutf8];</span><br><span class="line">        NSLog(@&quot;%@ ivar:     **** %@ **** &quot;, testIdentifier, name);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    for (int i = 0; i &lt; count; i ++) &#123;</span><br><span class="line">        Ivar ivar = ivars[i];</span><br><span class="line">        const char *nameinutf8 = ivar_getTypeEncoding(ivar);</span><br><span class="line">        NSString *name   = [NSString stringWithUTF8String:nameinutf8];</span><br><span class="line">        NSLog(@&quot;%@ type:     **** %@ **** &quot;, testIdentifier, name);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //协议列表</span><br><span class="line">    class_copyProtocolList(cla, &amp;count);</span><br><span class="line">    for (int i = 0; i &lt; count; i ++) &#123;</span><br><span class="line">        Protocol *proto = class_copyProtocolList(cla, &amp;count)[i];</span><br><span class="line">        const char *nameinutf8 = protocol_getName(proto);</span><br><span class="line">        NSString *name   = [NSString stringWithUTF8String:nameinutf8];</span><br><span class="line">        NSLog(@&quot;%@ protocol: **** %@ **** &quot;, testIdentifier, name);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //方法列表</span><br><span class="line">    Method *methods = class_copyMethodList(cla, &amp;count);</span><br><span class="line">    for (int i = 0; i &lt; count; i ++) &#123;</span><br><span class="line">        Method meth = methods[i];</span><br><span class="line">        SEL name = method_getName(meth);</span><br><span class="line">        NSLog(@&quot;%@ method: **** %@ **** &quot;, testIdentifier, NSStringFromSelector(name));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        
+
+<a class="tag" href="/tags/iOS/">iOS</a>
+
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/24/runtime探究/" data-id="cjepfsbea0008w74ieabd7kzl" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
-    </footer>
   </div>
-  
-</article>
+</div>
 
-
-  
-    <article id="post-NSTimer倒计时那些事" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/20/NSTimer倒计时那些事/" class="article-date">
-  <time datetime="2017-04-20T10:08:36.000Z" itemprop="datePublished">2017-04-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+      
+        <div class="post-item-wrapper">
+  <a href="/2017/04/17/alert、action的一些扩展/" class="post-title">
+      alert、action的一些扩展
+  </a>
+  <div class="post-excerpt">
+    <!-- Post Date and Categories -->
+    <div class="date-and-category">
+      <div class="date">2017-04-17</div>
+      <div class="categories">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/20/NSTimer倒计时那些事/">NSTimer倒计时那些事</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
+          Uncategorized
+        
+      </div>
+    </div>
+    <!-- Post Excerpt -->
+    <div class="excerpt typo">暂无文章摘要</div>
+    <!-- Post Tags -->
+    <div class="tags">
       
-        <h5 id="以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。"><a href="#以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。" class="headerlink" title="以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。"></a>以前使用NSTimer很少，也没怎么深入探究过，最近使用instruments跑了一遍以前的项目才发现，在timer这我给自己埋了很多坑。</h5><p>在我过去的项目中发现，凡是持有timer的页面（例如许许多多接收验证码的页面），在该dealloc的时候都没有正常执行的dealloc，导致了不少内存泄漏。<br>以前总是习惯在viewController的dealloc方法中来执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)dealloc&#123;</span><br><span class="line">    [_timer invalidate];</span><br><span class="line">    self.timer = nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上文已经说了，dealloc是不会执行的，那么这是为什么呢？</p>
-<h5 id="原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。"><a href="#原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。" class="headerlink" title="原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。"></a>原来，只要timer在初始化时，传入的repeat属性是YES，那么这时候timer就会强引用到传入的target（一般是我们的controller），那么事情很简单了，这二位仁兄retainCycle了。controller就算被pop出navigation栈或者被dismiss掉，但是还有timer引用它，所以它肯定不会dealloc了，在dealloc中去invalidate我们的timer明显也是不行了。</h5><p>那么许多胖友可能会想了，那我干脆controller弱引用timer，或者不持有timer这个属性不就行了，这个想法啊，too young， sometimes naive🤓你会发现controller还是不会dealloc，why？</p>
-<blockquote>
-<p>timer如果不invalidate掉的话会一直保存在内存中，那么对应的controller也一直在了。</p>
-</blockquote>
-<h5 id="那怎么办呢？难道就不能用timer做倒计时了？"><a href="#那怎么办呢？难道就不能用timer做倒计时了？" class="headerlink" title="那怎么办呢？难道就不能用timer做倒计时了？"></a>那怎么办呢？难道就不能用timer做倒计时了？</h5><p>非也，也不是不可以的。一个比较折中的方法，在timer自己的selector中一旦倒计时到0就invalidate然后置空，下次再开启倒计时就重新创建一个新的timer。<br>不过这样会出现一个非常有意思的情况，你会发现pop或者dismiss掉controller之前，如果timer的倒计时没有结束，那么controller不会第一时间dealloc，而是会在timer倒计时结束后再dealloc。<br>最后附上一点代码片段，困得眼皮打架了，有机会再研究研究有没有更好的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (void)timerAction&#123;</span><br><span class="line">    if (_countDown &gt; 0) &#123;</span><br><span class="line">        _verifyBtn.enabled = NO;</span><br><span class="line">        _countDown --;</span><br><span class="line">        [_verifyBtn setAttributedTitle:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@&quot;%lds&quot;, _countDown] attributes:@&#123;NSForegroundColorAttributeName : hexColor(0x999999), NSFontAttributeName : [UIFont systemFontOfSize:16]&#125;] forState:(UIControlStateNormal)];</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        _countDown = countDownTime;</span><br><span class="line">        _verifyBtn.enabled = YES;</span><br><span class="line">        [_timer invalidate];</span><br><span class="line">        _timer = nil;</span><br><span class="line">        [_verifyBtn setAttributedTitle:[[NSAttributedString alloc] initWithString:@&quot;获取验证码&quot; attributes:@&#123;NSForegroundColorAttributeName :   hexColor(0x137bd7), NSFontAttributeName : [UIFont systemFontOfSize:16.0f]&#125;] forState:(UIControlStateNormal)];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <div class="untagged">Untagged</div>
+      
+    </div>
+  </div>
+</div>
+
+      
+        <div class="post-item-wrapper">
+  <a href="/2017/04/16/iOS可变参数/" class="post-title">
+      iOS可变参数问题
+  </a>
+  <div class="post-excerpt">
+    <!-- Post Date and Categories -->
+    <div class="date-and-category">
+      <div class="date">2017-04-16</div>
+      <div class="categories">
+        
+          Uncategorized
+        
+      </div>
+    </div>
+    <!-- Post Excerpt -->
+    <div class="excerpt typo">暂无文章摘要</div>
+    <!-- Post Tags -->
+    <div class="tags">
+      
+        
+
+<a class="tag" href="/tags/iOS/">iOS</a>
+
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/20/NSTimer倒计时那些事/" data-id="cjepfsbdk0000w74i2pd5hip5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
-    </footer>
   </div>
-  
-</article>
+</div>
 
-
-  
-    <article id="post-alert、action的一些扩展" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/17/alert、action的一些扩展/" class="article-date">
-  <time datetime="2017-04-17T07:28:59.000Z" itemprop="datePublished">2017-04-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+      
+        <div class="post-item-wrapper">
+  <a href="/2017/04/15/AFNetworking内存泄漏/" class="post-title">
+      AFNetworking 内存泄漏问题
+  </a>
+  <div class="post-excerpt">
+    <!-- Post Date and Categories -->
+    <div class="date-and-category">
+      <div class="date">2017-04-15</div>
+      <div class="categories">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/17/alert、action的一些扩展/">alert、action的一些扩展</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="在我的上一篇文章iOS可变参数问题中我们对UIAlertView和UIActionsheet进行了子类继承，为子类对象添加了一些通知监测并在其中探讨了iOS的可变参数、哨兵参数问题，在这篇文章中我们继续对继承而来的子类功能进行拓展。"><a href="#在我的上一篇文章iOS可变参数问题中我们对UIAlertView和UIActionsheet进行了子类继承，为子类对象添加了一些通知监测并在其中探讨了iOS的可变参数、哨兵参数问题，在这篇文章中我们继续对继承而来的子类功能进行拓展。" class="headerlink" title="在我的上一篇文章iOS可变参数问题中我们对UIAlertView和UIActionsheet进行了子类继承，为子类对象添加了一些通知监测并在其中探讨了iOS的可变参数、哨兵参数问题，在这篇文章中我们继续对继承而来的子类功能进行拓展。"></a>在我的上一篇文章<a href="http://fantasineer.com/2017/04/16/iOS%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0/">iOS可变参数问题</a>中我们对UIAlertView和UIActionsheet进行了子类继承，为子类对象添加了一些通知监测并在其中探讨了iOS的可变参数、哨兵参数问题，在这篇文章中我们继续对继承而来的子类功能进行拓展。</h5><p>在使用alert、action时总觉得特别难用，instance的声明创建与点击事件实现完全分开不说，点击事件的代码还全部都要放到代理方法里，而且alert、action的index还可能存在很多，那么一个alert、action的点击事件就已经相当复杂，多个它们的点击事件放到一个代理方法里想想就头疼。</p>
-<h5 id="那么如何解决这个问题呢？方法有二："><a href="#那么如何解决这个问题呢？方法有二：" class="headerlink" title="那么如何解决这个问题呢？方法有二："></a>那么如何解决这个问题呢？方法有二：</h5><ul>
-<li>如果APP用到的alert、action很少，而且还不需要有其他功能拓展，那么创建完alert、action对象后直接runtime给alert或者action绑定一个<code>typedef void(^processIndex)(NSInteger index)</code>类型的block作为关联属性，用处理点击事件的代码给该属性赋值，在代理方法里直接<code>if (block){block(buttonIndex)}</code></li>
-<li>当然还是推荐继承个子类然后把代理设置成自己，添加一个处理buttonIndex的block属性然后初始化方法直接把需要的都传进去，好处不言而喻：不需要controller作为delegate（耦合低，为controller减负）、可扩展性高、使用方便，况且谁也不知道项目以后的推进过程会不会大量用到alert和action，所以第一种方法还是不可取的。<h5 id="还是以alertView为例"><a href="#还是以alertView为例" class="headerlink" title="还是以alertView为例"></a>还是以alertView为例</h5><blockquote>
-<p>方法一（直接放几个代码片段了）</p>
-</blockquote>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line">typedef void(^processIndex)(NSInteger index);</span><br><span class="line">static NSString *const associatedAlertKey = @&quot;associatedAlertKey&quot;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - associate property</span><br><span class="line">- (void)associateProcessBlock:(process)processBlock alert:(UIAlertView *)alert&#123;</span><br><span class="line">    objc_setAssociatedObject(alert, &amp;WLAlertAssociatedKey, processBlock, OBJC_ASSOCIATION_COPY);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (process)getAssociatedBlockForAlert:(UIAlertView *)alert&#123;</span><br><span class="line">    return objc_getAssociatedObject(alert, &amp;WLAlertAssociatedKey);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@&quot;test&quot; delegate:self cancelButtonTitle:@&quot;cancel&quot; otherButtonTitles:nil];</span><br><span class="line">processIndex process = ^(NSInteger butIndex)&#123;</span><br><span class="line">    //do something</span><br><span class="line">&#125;;</span><br><span class="line">[self associateProcessBlock:process alert:alert];</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)alertView:(UIAlertView*)alertView didClickedButtonAtIndex:(NSInteger)buttonIndex&#123;</span><br><span class="line">    processIndex process = [self getAssociatedBlockForAlert:alertView];</span><br><span class="line">    if (process)&#123;</span><br><span class="line">        process(buttonIndex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>方法二（直接把我继承来的WLAlertView.m放上去了）</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">//  WLAlertView.m</span><br><span class="line">//  insure</span><br><span class="line">//</span><br><span class="line">//  Created by codeFarmer on 2017/4/17.</span><br><span class="line">//  Copyright © 2017年 codeFamer. All rights reserved.</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">#import &quot;WLAlertView.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line">static NSString *const WLAlertAssociatedKey = @&quot;WLAlertAssociatedKey&quot;;</span><br><span class="line">@implementation WLAlertView</span><br><span class="line">- (void)dealloc&#123;</span><br><span class="line">    [defaultCenter() removeObserver:self];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...NS_REQUIRES_NIL_TERMINATION&#123;</span><br><span class="line">    NSAssert(NO, @&quot;use initWithTitle: message: block: cancelBtnTitle: otherBtnTitles: method&quot;);</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithCoder:(NSCoder *)aDecoder&#123;</span><br><span class="line">    NSAssert(NO, @&quot;use initWithTitle: message: block: cancelBtnTitle: otherBtnTitles: method&quot;);</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message block:(process)processBlock cancelBtnTitle:(NSString *)cancelBtnTitle otherBtnTitles:(NSString*)otherBtnTitles,...NS_REQUIRES_NIL_TERMINATION&#123;</span><br><span class="line">    self = [super initWithTitle:title message:message delegate:self cancelButtonTitle:cancelBtnTitle otherButtonTitles:nil];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        [self associateProcessBlock:processBlock];</span><br><span class="line">        [defaultCenter() addObserver:self selector:@selector(dismissSelf) name:@&quot;userLoginStatusKickedOff&quot; object:nil];</span><br><span class="line">        va_list args;</span><br><span class="line">        va_start(args, otherBtnTitles);</span><br><span class="line">        if (otherBtnTitles) &#123;</span><br><span class="line">            [self addButtonWithTitle:otherBtnTitles];</span><br><span class="line">            NSString *otherString;</span><br><span class="line">            while ((otherString = va_arg(args, NSString *)))</span><br><span class="line">            &#123;</span><br><span class="line">                [self addButtonWithTitle:otherString];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        va_end(args);</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - notification</span><br><span class="line">- (void)dismissSelf&#123;</span><br><span class="line">    [self dismissWithClickedButtonIndex:self.cancelButtonIndex animated:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - alert delegate</span><br><span class="line">- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex&#123;</span><br><span class="line">    process block = [self getAssociatedBlock];</span><br><span class="line">    if (block) &#123;</span><br><span class="line">        block(buttonIndex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - associate property</span><br><span class="line">- (void)associateProcessBlock:(process)processBlock&#123;</span><br><span class="line">    objc_setAssociatedObject(self, &amp;WLAlertAssociatedKey, processBlock, OBJC_ASSOCIATION_COPY);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (process)getAssociatedBlock&#123;</span><br><span class="line">    return objc_getAssociatedObject(self, &amp;WLAlertAssociatedKey);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<h4 id="写完才发现方法二我还是用的关联属性，懒得改了，就当复习runtime了，其实还是直接把block写成属性最好，方便、省事。"><a href="#写完才发现方法二我还是用的关联属性，懒得改了，就当复习runtime了，其实还是直接把block写成属性最好，方便、省事。" class="headerlink" title="写完才发现方法二我还是用的关联属性，懒得改了，就当复习runtime了，其实还是直接把block写成属性最好，方便、省事。"></a>写完才发现方法二我还是用的关联属性，懒得改了，就当复习runtime了，其实还是直接把block写成属性最好，方便、省事。</h4>
-      
+          Uncategorized
+        
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/17/alert、action的一些扩展/" data-id="cjepfsbe20004w74icj2d4j9z" class="article-share-link">Share</a>
+    <!-- Post Excerpt -->
+    <div class="excerpt typo">暂无文章摘要</div>
+    <!-- Post Tags -->
+    <div class="tags">
       
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS可变参数" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/16/iOS可变参数/" class="article-date">
-  <time datetime="2017-04-16T01:37:23.000Z" itemprop="datePublished">2017-04-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/16/iOS可变参数/">iOS可变参数问题</a>
-    </h1>
-  
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="之前在做的项目有这么一个需求：app不允许多端登录，多端登录互踢。我们的解决思路是直接appdelegate监测从融云服务器发来的状态切换通知和我们自己服务端做请求时返回的statusCode，一旦发现被踢，那么直接在window上present出一个登录界面。但是这样存在一个问题，那就是如果present之前界面上存在alert、actionsheet两种窗口，那么就算登录界面被模态出了，alert和actionsheet仍然存在，并显示在登录界面之上。"><a href="#之前在做的项目有这么一个需求：app不允许多端登录，多端登录互踢。我们的解决思路是直接appdelegate监测从融云服务器发来的状态切换通知和我们自己服务端做请求时返回的statusCode，一旦发现被踢，那么直接在window上present出一个登录界面。但是这样存在一个问题，那就是如果present之前界面上存在alert、actionsheet两种窗口，那么就算登录界面被模态出了，alert和actionsheet仍然存在，并显示在登录界面之上。" class="headerlink" title="之前在做的项目有这么一个需求：app不允许多端登录，多端登录互踢。我们的解决思路是直接appdelegate监测从融云服务器发来的状态切换通知和我们自己服务端做请求时返回的statusCode，一旦发现被踢，那么直接在window上present出一个登录界面。但是这样存在一个问题，那就是如果present之前界面上存在alert、actionsheet两种窗口，那么就算登录界面被模态出了，alert和actionsheet仍然存在，并显示在登录界面之上。"></a>之前在做的项目有这么一个需求：app不允许多端登录，多端登录互踢。我们的解决思路是直接appdelegate监测从融云服务器发来的状态切换通知和我们自己服务端做请求时返回的statusCode，一旦发现被踢，那么直接在window上present出一个登录界面。但是这样存在一个问题，那就是如果present之前界面上存在alert、actionsheet两种窗口，那么就算登录界面被模态出了，alert和actionsheet仍然存在，并显示在登录界面之上。</h5><h5 id="解决思路："><a href="#解决思路：" class="headerlink" title="解决思路："></a>解决思路：</h5><ul>
-<li>在各个controller中监测被踢通知，并在通知的selector中实现dismiss掉alert、action；</li>
-<li>直接继承alertView、actionSheet写两个子类，子类内部监测被踢通知，通知方法内部diamiss掉自己。</li>
-</ul>
-<h5 id="很明显第一种非常不可取的方法，麻烦不说，耦合度也很高，所以直接使用第二种来解决。"><a href="#很明显第一种非常不可取的方法，麻烦不说，耦合度也很高，所以直接使用第二种来解决。" class="headerlink" title="很明显第一种非常不可取的方法，麻烦不说，耦合度也很高，所以直接使用第二种来解决。"></a>很明显第一种非常不可取的方法，麻烦不说，耦合度也很高，所以直接使用第二种来解决。</h5><p>以alert为例，直接上.m文件代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;WLAlertView.h&quot;</span><br><span class="line">@implementation WLAlertView</span><br><span class="line">- (void)dealloc&#123;</span><br><span class="line">    [defaultCenter() removeObserver:self];</span><br><span class="line">&#125;</span><br><span class="line">- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...&#123;</span><br><span class="line">    self = [super initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        [defaultCenter() addObserver:self selector:@selector(dismissSelf) name:@&quot;userLoginStatusKickedOff&quot; object:nil];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">- (void)dismissSelf&#123;</span><br><span class="line">    [self dismissWithClickedButtonIndex:self.cancelButtonIndex animated:NO];</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
-<h5 id="但是其实这样是存在问题的，比如我如此调用："><a href="#但是其实这样是存在问题的，比如我如此调用：" class="headerlink" title="但是其实这样是存在问题的，比如我如此调用："></a>但是其实这样是存在问题的，比如我如此调用：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[WLAlertView alloc] initWithTitle:nil message:@&quot;testing...&quot; delegate:nil cancelButtonTitle:@&quot;取消&quot; otherButtonTitles:@&quot;确定&quot;, @&quot;btn1&quot;, @&quot;btn2&quot;, nil] show];</span><br></pre></td></tr></table></figure>
-<p>结果却是这样的:<br><img src="http://i1.piimg.com/567571/f8ebb940c4a01027.png" alt=""></p>
-<h5 id="那么问题究竟出在哪呢，明明已经在-m文件的init方法中调用了父类方法，怎么创建出来的只有取消和确定两个按钮呢？而且参数的传入方式不同于我们平时的传入方式，otherButtonTitles传入多个标题使用的并非数组，而是用逗号隔开的一组参数（类似于NSLog），于是我查阅了一下相关资料，原来这是C语言的一种不定参数-哨兵参数用法，…代表了不定参数，而传入的nil则为哨兵参数（哨兵参数的作用是告诉函数后边没有参数了），我们这样在子类里直接调用父类方法其实并没有把所有该传的可变参数传进去，而是只传了一个otherButtonTitles进去（有兴趣的童鞋可以直接百度iOS不定参数、哨兵参数，这里不过多赘述）而对于不定参数的使用需要使用va系列的宏来操作，具体用法如下："><a href="#那么问题究竟出在哪呢，明明已经在-m文件的init方法中调用了父类方法，怎么创建出来的只有取消和确定两个按钮呢？而且参数的传入方式不同于我们平时的传入方式，otherButtonTitles传入多个标题使用的并非数组，而是用逗号隔开的一组参数（类似于NSLog），于是我查阅了一下相关资料，原来这是C语言的一种不定参数-哨兵参数用法，…代表了不定参数，而传入的nil则为哨兵参数（哨兵参数的作用是告诉函数后边没有参数了），我们这样在子类里直接调用父类方法其实并没有把所有该传的可变参数传进去，而是只传了一个otherButtonTitles进去（有兴趣的童鞋可以直接百度iOS不定参数、哨兵参数，这里不过多赘述）而对于不定参数的使用需要使用va系列的宏来操作，具体用法如下：" class="headerlink" title="那么问题究竟出在哪呢，明明已经在.m文件的init方法中调用了父类方法，怎么创建出来的只有取消和确定两个按钮呢？而且参数的传入方式不同于我们平时的传入方式，otherButtonTitles传入多个标题使用的并非数组，而是用逗号隔开的一组参数（类似于NSLog），于是我查阅了一下相关资料，原来这是C语言的一种不定参数+哨兵参数用法，…代表了不定参数，而传入的nil则为哨兵参数（哨兵参数的作用是告诉函数后边没有参数了），我们这样在子类里直接调用父类方法其实并没有把所有该传的可变参数传进去，而是只传了一个otherButtonTitles进去（有兴趣的童鞋可以直接百度iOS不定参数、哨兵参数，这里不过多赘述）而对于不定参数的使用需要使用va系列的宏来操作，具体用法如下："></a>那么问题究竟出在哪呢，明明已经在.m文件的init方法中调用了父类方法，怎么创建出来的只有取消和确定两个按钮呢？而且参数的传入方式不同于我们平时的传入方式，otherButtonTitles传入多个标题使用的并非数组，而是用逗号隔开的一组参数（类似于NSLog），于是我查阅了一下相关资料，原来这是C语言的一种不定参数+哨兵参数用法，…代表了不定参数，而传入的nil则为哨兵参数（哨兵参数的作用是告诉函数后边没有参数了），我们这样在子类里直接调用父类方法其实并没有把所有该传的可变参数传进去，而是只传了一个otherButtonTitles进去（有兴趣的童鞋可以直接百度iOS不定参数、哨兵参数，这里不过多赘述）而对于不定参数的使用需要使用va系列的宏来操作，具体用法如下：</h5><p>（1）首先在函数里定义一具VA_LIST型的变量，这个变量是指向参数的指针；<br>（2）然后用VA_START宏初始化刚定义的VA_LIST变量；<br>（3）然后用VA_ARG返回可变的参数，VA_ARG的第二个参数是你要返回的参数的类型（如果函数有多个可变参数的，依次调用VA_ARG获取各个参数）；<br>（4）最后用VA_END宏结束可变参数的获取。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...&#123;</span><br><span class="line">    self = [super initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        [defaultCenter() addObserver:self selector:@selector(dismissSelf) name:@&quot;userLoginStatusKickedOff&quot; object:nil];</span><br><span class="line">        va_list args;</span><br><span class="line">        va_start(args, otherButtonTitles);</span><br><span class="line">        if (otherButtonTitles) &#123;</span><br><span class="line">            [self addButtonWithTitle:otherButtonTitles];</span><br><span class="line">            NSString *otherString;</span><br><span class="line">            while ((otherString = va_arg(args, NSString *)))</span><br><span class="line">            &#123;</span><br><span class="line">                [self addButtonWithTitle:otherString];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        va_end(args);</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果：<br><img src="http://i2.muimg.com/567571/407e4b2420927c8b.png" alt=""></p>
-<blockquote>
-<p>注意：可变参数的类型和个数完全由程序代码控制,它并不能智能地识别不同参数的个数和类型且因为编译器对可变参数的函数的原型检查不够严格,对编程查错不利，不利于我们写出高质量的代码，所以不推荐自己在编写某些功能时使用可变参数。</p>
-</blockquote>
+<a class="tag" href="/tags/iOS/">iOS</a>
+
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/16/iOS可变参数/" data-id="cjepfsbe70005w74ij5005bv0" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
-    </footer>
   </div>
-  
-</article>
-
-
-  
-    <article id="post-AFNetworking内存泄漏" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/04/15/AFNetworking内存泄漏/" class="article-date">
-  <time datetime="2017-04-15T01:37:23.000Z" itemprop="datePublished">2017-04-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/15/AFNetworking内存泄漏/">AFNetworking 内存泄漏问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。"><a href="#前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。" class="headerlink" title="前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。"></a>前几天突心血来潮用instruments跑了跑之前从同事手里接过来的项目，结果一跑就让我抓到了个AFN的问题。</h4><h5 id="每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call-tree和retain-circle都是一样的如下2图："><a href="#每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call-tree和retain-circle都是一样的如下2图：" class="headerlink" title="每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图："></a>每向后台发出一次请求，就通过instruments截获到一个内存泄漏，而且每次请求发出后发生内存泄漏的call tree和retain circle都是一样的如下2图：</h5><p><img src="http://i2.muimg.com/567571/39e96918332ed6ae.png" alt=""><br><img src="http://i2.muimg.com/567571/118de333896860cf.png" alt=""></p>
-<h5 id="那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。"><a href="#那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。" class="headerlink" title="那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。"></a>那么问题已经非常明显了，我特意去查了下NSURLSession的delegate持有方式为strong，而AFURLManager及其子类对象对NSURLSession对象为强引用，且恰恰AFURLManager及其子类对象遵守了NSURLSessionDelegate，所以造成了循环引用，请求结束后NSURLSession对象与AFURLManager对象并没有得到释放，造成了内存泄漏。</h5><h5 id="特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？"><a href="#特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？" class="headerlink" title="特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？"></a>特意去调研了一下这个问题应该是session的ARC机制下的历史遗留问题，那么既然如此如何去解决呢？</h5><h5 id="两种方法："><a href="#两种方法：" class="headerlink" title="两种方法："></a>两种方法：</h5><ul>
-<li>将session写成单例，将AFURLManager对session的引用改成weak</li>
-<li>将manager写成单例<blockquote>
-<p>第一种方法非常好理解，既然是session的历史遗留问题，那么直接从session下手将其改为单例之后session常驻内存不用担心被释放掉，所以session的生命周期长于持有它的manager，可以放心的将manager对session的引用改为weak；<br>第二种看上去有点舍近求远，明明是session的问题，改manager有什么用的？点进afn的源码就会发现，session的创建都是在manager中进行的，而且manager内部不存在修改session的代码，那么将manager封装成单例的话，session也就相应的变成了单例，虽然它们之间的循环引用还存在，但是这已经不会造成任何内存泄漏问题了–单例的生命周期等同于app生命周期。</p>
-</blockquote>
-</li>
-</ul>
-<hr>
-<h5 id="对比一下两种解决办法的优劣："><a href="#对比一下两种解决办法的优劣：" class="headerlink" title="对比一下两种解决办法的优劣："></a>对比一下两种解决办法的优劣：</h5><ul>
-<li>第一种简单容易理解，错误出在哪里就去哪里解决，但是因为session是在manager内部创建的，而且我们要将session改成单例还需要去改manager对session的强引用，就造成了对AFN内部代码的大量修改。</li>
-<li>我个人更推荐第二种算法，因为它看似舍近求远，但是其实是从最根源解决了AFN的内存泄漏问题， 并且manager的创建一般都是在我们对AFN的二次封装或者直接使用时进行的，所以不需要修改AFN内部代码，工作量也小于第一种。</li>
-</ul>
+</div>
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2017/04/15/AFNetworking内存泄漏/" data-id="cjepfsbdy0003w74iw9v3wdrp" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
-    </footer>
   </div>
-  
-</article>
+</div>
 
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/iOS/" style="font-size: 10px;">iOS</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/03/13/runtime探究（二）：方法交换/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/14/JS中的继承/">JS中的继承</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/24/runtime探究/">runtime探究（一）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/20/NSTimer倒计时那些事/">NSTimer倒计时那些事</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/17/alert、action的一些扩展/">alert、action的一些扩展</a>
-          </li>
-        
+<!-- Pagination -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-md-offset-1">
+      <ul class="pagination">
+          
+          
       </ul>
     </div>
   </div>
+</div>
 
-  
-</aside>
-        
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Lei Wang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
 
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
+  </body>
 </html>
+
