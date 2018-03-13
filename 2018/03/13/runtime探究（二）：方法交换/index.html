@@ -7,17 +7,17 @@
   
   <title>fantasineer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20tags: iOS    使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewCont">
+  <meta name="description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewControl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fantasineer">
 <meta property="og:url" content="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/index.html">
 <meta property="og:site_name" content="fantasineer">
-<meta property="og:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20tags: iOS    使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewCont">
+<meta property="og:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewControl">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-13T10:00:00.343Z">
+<meta property="og:updated_time" content="2018-03-13T10:02:36.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fantasineer">
-<meta name="twitter:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20tags: iOS    使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewCont">
+<meta name="twitter:description" content="title: runtime探究（二）：方法交换date: 2017-04-25 12:10:20 tags: iOS使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。     我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法： 写一个UIViewControl">
   
     <link rel="alternate" href="/atom.xml" title="fantasineer" type="application/atom+xml">
   
@@ -81,9 +81,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>title: runtime探究（二）：方法交换<br>date: 2017-04-25 12:10:20<br>tags: iOS  </p>
-<hr>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>现在有这么一个情况：<br>一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。    </p>
+<p>title: runtime探究（二）：方法交换<br>date: 2017-04-25 12:10:20</p>
+<h2 id="tags-iOS"><a href="#tags-iOS" class="headerlink" title="tags: iOS"></a>tags: iOS</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>现在有这么一个情况：<br>一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。    </p>
 <h5 id="我们该如何填上这个坑呢？如果使用-常规手段，有这样2种大概可行的办法："><a href="#我们该如何填上这个坑呢？如果使用-常规手段，有这样2种大概可行的办法：" class="headerlink" title="我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法："></a>我们该如何填上这个坑呢？如果使用 <em>常规手段</em>，有这样2种大概可行的办法：</h5><ul>
 <li>写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以app中controller的基类。</li>
 <li>给UIViewController写一个 <em>category</em>，在category中重写ViewDidLoad，在pch文件中import进来  ；</li>
@@ -126,7 +125,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/" data-id="cjephlacj00057l4i8o7a3ynn" class="article-share-link">Share</a>
+      <a data-url="http://fantasineer.com/2018/03/13/runtime探究（二）：方法交换/" data-id="cjephnckj00049n4iesg7m0kg" class="article-share-link">Share</a>
       
       
     </footer>
