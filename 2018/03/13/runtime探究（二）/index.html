@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="runtime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：       写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以a">
+<meta name="description" content="title: runtime探究（二）：方法交换date: 2017-05-20 12:00:18 tags: iOSruntime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fantasineer">
 <meta property="og:url" content="http://fantasineer.com/2018/03/13/runtime探究（二）/index.html">
 <meta property="og:site_name" content="fantasineer">
-<meta property="og:description" content="runtime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：       写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以a">
+<meta property="og:description" content="title: runtime探究（二）：方法交换date: 2017-05-20 12:00:18 tags: iOSruntime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-14T03:20:26.326Z">
+<meta property="og:updated_time" content="2018-03-14T03:24:41.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fantasineer">
-<meta name="twitter:description" content="runtime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：       写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以a">
+<meta name="twitter:description" content="title: runtime探究（二）：方法交换date: 2017-05-20 12:00:18 tags: iOSruntime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法">
 
 
 
@@ -299,7 +299,9 @@
       
 
       
-        <h1 id="runtime探究（二）：方法交换"><a href="#runtime探究（二）：方法交换" class="headerlink" title="runtime探究（二）：方法交换"></a>runtime探究（二）：方法交换</h1><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>现在有这么一个情况：<br>一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。    </p>
+        <hr>
+<p>title: runtime探究（二）：方法交换<br>date: 2017-05-20 12:00:18</p>
+<h2 id="tags-iOS"><a href="#tags-iOS" class="headerlink" title="tags: iOS"></a>tags: iOS</h2><h1 id="runtime探究（二）：方法交换"><a href="#runtime探究（二）：方法交换" class="headerlink" title="runtime探究（二）：方法交换"></a>runtime探究（二）：方法交换</h1><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>现在有这么一个情况：<br>一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。    </p>
 <blockquote>
 <p>我们该如何填上这个坑呢？如果使用 <em>常规手段</em>，有这样2种大概可行的办法：    </p>
 </blockquote>
@@ -506,7 +508,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#runtime探究（二）：方法交换"><span class="nav-number">1.</span> <span class="nav-text">runtime探究（二）：方法交换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">1.0.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">1.0.2.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><span class="nav-number">1.0.2.0.1.</span> <span class="nav-text">这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这里边其实存在一些需要讨论的东西："><span class="nav-number">1.0.2.0.2.</span> <span class="nav-text">这里边其实存在一些需要讨论的东西：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">1.0.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-iOS"><span class="nav-number">1.</span> <span class="nav-text">tags: iOS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#runtime探究（二）：方法交换"><span class="nav-number"></span> <span class="nav-text">runtime探究（二）：方法交换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">0.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">0.2.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><span class="nav-number">0.2.0.1.</span> <span class="nav-text">这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这里边其实存在一些需要讨论的东西："><span class="nav-number">0.2.0.2.</span> <span class="nav-text">这里边其实存在一些需要讨论的东西：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">0.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></div>
             
 
           </div>
