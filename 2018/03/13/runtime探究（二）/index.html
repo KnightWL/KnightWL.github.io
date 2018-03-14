@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="fantasineer">
 <meta property="og:description" content="runtime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：       写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以a">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-14T02:55:05.194Z">
+<meta property="og:updated_time" content="2018-03-14T03:20:26.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fantasineer">
 <meta name="twitter:description" content="runtime探究（二）：方法交换使用场景现在有这么一个情况：一个已经开发了N年，非常庞大的项目，突然间产品经理说：“咱们要给app加上一些数据采集功能，要求采集到用户每次打开一个我们的页面的动作”。      我们该如何填上这个坑呢？如果使用 常规手段，有这样2种大概可行的办法：       写一个UIViewController的子类重写ViewDidLoad方法的实现，然后将该子类作为所以a">
@@ -319,7 +319,7 @@
 <hr>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h5 id="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><a href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：" class="headerlink" title="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："></a>这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</h5><ul>
 <li>创建一对category文件</li>
-<li>在category的.m中引入 <em>\&lt;objc/message.h&gt;</em></li>
+<li>在category的.m中引入 &lt;objc/message.h&gt;</li>
 <li>在.m中实现一个自定义的方法 <em>DIY_viewDidLod</em>，在其实加入自己要添加的方法实现然后在该方法内调用 <em>[self DIY_viewDidLoad]</em></li>
 <li>在 <em>load</em>方法中使用 <em>runtime</em>将 <em>viewDidLoad</em>与 <em>DIY_viewDidLoad</em>的方法实现互换。（ <strong>最好在互换时将互换过程写在dispatch_once的block中，虽然我们都知道load方法只在本文件加载进ram时调用一次，但是我还真的碰到过一个bug对一个文件的load方法执行过多次的情况</strong>）     </li>
 </ul>

@@ -323,7 +323,7 @@
 <hr>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h5 id="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><a href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：" class="headerlink" title="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："></a>这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</h5><ul>
 <li>创建一对category文件</li>
-<li>在category的.m中引入 <em>\&lt;objc/message.h&gt;</em></li>
+<li>在category的.m中引入 &lt;objc/message.h&gt;</li>
 <li>在.m中实现一个自定义的方法 <em>DIY_viewDidLod</em>，在其实加入自己要添加的方法实现然后在该方法内调用 <em>[self DIY_viewDidLoad]</em></li>
 <li>在 <em>load</em>方法中使用 <em>runtime</em>将 <em>viewDidLoad</em>与 <em>DIY_viewDidLoad</em>的方法实现互换。（ <strong>最好在互换时将互换过程写在dispatch_once的block中，虽然我们都知道load方法只在本文件加载进ram时调用一次，但是我还真的碰到过一个bug对一个文件的load方法执行过多次的情况</strong>）     </li>
 </ul>
