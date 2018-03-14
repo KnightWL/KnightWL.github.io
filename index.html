@@ -313,11 +313,11 @@
 <blockquote>
 <p>首先我们来分析第一种：    </p>
 </blockquote>
-<pre><code>如果本身 *app中存在这样的基类而且所有的controller都是其子类*，那这时候我们使用该方法是非常方便可行的，但是一旦没有这样的基类或者说这样的基类可能有多个，每个子类都继承子不同的基类，那我想这着实是一场编程灾难。  
+<pre><code>如果本身 _app中存在这样的基类而且所有的controller都是其子类_，那这时候我们使用该方法是非常方便可行的，但是一旦没有这样的基类或者说这样的基类可能有多个，每个子类都继承子不同的基类，那我想这着实是一场编程灾难。  
 </code></pre><blockquote>
 <p>接下来看第二种：    </p>
 </blockquote>
-<pre><code>首先这个想法肯定是比上一个靠谱的，毕竟不管有没有上述那么一个基类，我们都能通过在pch中引入category使所有的 *__kindof UIViewController \**的ViewDidLod方法实现变成我们在category中重写的实现，但是可行吗？category中实现方法与我们在类的.m文件中有一个非常大的区别： __category中不能使用super方法__，也就意味着我们在category中实现ViewDidLoad的重写时无法调用这句 *[super viewDidLoad]*，我想这个灾难应该比上一种还可怕。所以现在我们对category有多了一层认知： __最好不要使用category来重写系统方法的实现。__      
+<pre><code>首先这个想法肯定是比上一个靠谱的，毕竟不管有没有上述那么一个基类，我们都能通过在pch中引入category使所有的 \_\_kindof UIViewController* 的ViewDidLod方法实现变成我们在category中重写的实现，但是可行吗？category中实现方法与我们在类的.m文件中有一个非常大的区别： __category中不能使用super方法__，也就意味着我们在category中实现ViewDidLoad的重写时无法调用这句 *[super viewDidLoad]*，我想这个灾难应该比上一种还可怕。所以现在我们对category有多了一层认知： __最好不要使用category来重写系统方法的实现。__      
 </code></pre><p><em>其实也引出了方法交换的使用场景：</em> <strong>全局低耦合性修改系统方法实现。</strong></p>
 <hr>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h5 id="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："><a href="#这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：" class="headerlink" title="这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下："></a>这里有一个很巧妙的思路可以在耦合性非常低的情况下来实现全局的系统方法重写，步骤如下：</h5><ul>
